@@ -8,8 +8,10 @@ from oauth2client import client
 from oauth2client.file import Storage
 from requests_oauthlib import OAuth1Session
 
-youtubeURL='YouTubeLiveの配信URL'
+#YouTubeLiveURL
+LIVEURL='YouTubeLiveの配信URL'
  
+#TwitterAPI
 CONSUMER_KEY =  ''
 CONSUMER_SECRET = ''
 ACCESS_TOKEN = ''
@@ -20,7 +22,7 @@ tweet_url = "https://api.twitter.com/1.1/statuses/update.json"
 del_url = "https://api.twitter.com/1.1/statuses/user_timeline.json"
 
 def GetURL():
-    urlP = youtubeURL[-11:]
+    urlP = LIVEURL[-11:]
  
     credentials_path = "./credentials.json"
     store = Storage(credentials_path)
@@ -30,6 +32,7 @@ def GetURL():
         f = "./client.json"
         scope = "https://www.googleapis.com/auth/youtube.readonly"
         flow = client.flow_from_clientsecrets(f, scope)
+        #YouTubeAPI
         flow.user_agent = "YOUR API KEY"
         credentials = tools.run_flow(flow, Storage(credentials_path))
  
@@ -69,7 +72,7 @@ def Comment(data,url,http):
                         name = datum["authorDetails"]["displayName"]
 
                         if Flag == True:
-                            tweet = comment + ' Twitter連携タグ'
+                            tweet = name + ':' + comment + ' Twitter連携タグ'
                             params = {"status" : tweet}
                             req = twitter.post(tweet_url, params = params)                                       
                             params ={'count' : 5}
